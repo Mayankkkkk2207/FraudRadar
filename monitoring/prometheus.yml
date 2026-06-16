@@ -1,0 +1,29 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    monitor: 'fraudradar'
+
+scrape_configs:
+  - job_name: 'fraudradar-api'
+    metrics_path: /metrics
+    scrape_interval: 15s
+    static_configs:
+      - targets: ['api:8000']
+        labels:
+          service: 'api'
+
+  - job_name: 'fraudradar-consumer'
+    metrics_path: /metrics
+    scrape_interval: 15s
+    static_configs:
+      - targets: ['consumer:9101']
+        labels:
+          service: 'consumer'
+
+  - job_name: 'prometheus'
+    scrape_interval: 15s
+    static_configs:
+      - targets: ['localhost:9090']
+        labels:
+          service: 'prometheus'
